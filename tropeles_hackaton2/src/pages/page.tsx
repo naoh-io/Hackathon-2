@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // ajusta el path si difiere
-import SectorStory from "../components/SectorStory.jsx"; // apunta al JSX real
+import SectorStory from "../components/SectorStory.tsx"; // apunta al JSX real
 
 /**
  * Página de /sectors/:id/story (React Router).

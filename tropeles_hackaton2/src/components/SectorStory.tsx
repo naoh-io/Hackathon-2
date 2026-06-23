@@ -1,4 +1,4 @@
-import React, {
+import  {
   useEffect,
   useRef,
   useState,
@@ -271,7 +271,7 @@ async function fetchSectorStory(
   authToken: string | null | undefined,
   { signal }: { signal?: AbortSignal } = {},
 ): Promise<SectorStoryResponse> {
-  const res = await fetch(`/api/v1/sectors/${sectorId}/story`, {
+  const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/sectors/${sectorId}/story`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${authToken ?? ""}`,

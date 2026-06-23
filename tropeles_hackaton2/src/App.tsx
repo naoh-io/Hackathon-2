@@ -7,6 +7,8 @@ import { DashboardPage } from './pages/DashboardPage';
 import { TropelsPage } from './pages/TropelsPage';
 import { SignalsFeedPage } from "./pages/SignalsFeedPage";
 import { SectorStoryPage } from "./pages/page";
+import { SectorsPage } from './pages/SectorsPage';
+
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
             {/* Tus compañeros conectarán sus rutas aquí */}
             <Route path="/tropels" element={<TropelsPage />} />
             <Route path="/signals" element={<SignalsFeedPage />} />
+            <Route path="/sectors/:id/story" element={<SectorStoryPage />} />
+            <Route path="/sectors" element={<SectorsPage />} />
             <Route path="/sectors/:id/story" element={<SectorStoryPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

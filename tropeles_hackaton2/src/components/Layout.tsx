@@ -26,6 +26,9 @@ export function Layout() {
             <Link to="/signals" className="hover:text-emerald-400 transition-colors">
               Señales
             </Link>
+            <Link to="/sectors" className="hover:text-emerald-400 transition-colors">
+            Sectores
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-sm">
