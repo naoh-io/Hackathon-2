@@ -16,10 +16,13 @@ export function SectorsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    apiFetch<Sector[]>('/sectors')
-      .then(setSectors)
-      .finally(() => setLoading(false));
-  }, []);
+  apiFetch<{ content: Sector[] } | Sector[]>('/sectors')
+    .then((res) => {
+      if (Array.isArray(res)) setSectors(res);
+      else if ('content' in res) setSectors(res.content);
+    })
+    .finally(() => setLoading(false));
+}, []);
 
   if (loading) return <div className="text-gray-400">Cargando sectores...</div>;
 
@@ -48,3 +51,4 @@ export function SectorsPage() {
     </div>
   );
 }
+
