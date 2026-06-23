@@ -107,13 +107,18 @@ export function useInfiniteSignals(filters: FeedFilters) {
     loadFirstPage();
   }, [loadFirstPage]);
 
-  return {
-    items,
-    hasMore,
-    loadingInitial,
-    loadingMore,
-    error,
-    loadMore,
-    retry: loadMore,
-  };
+return {
+  items,
+  hasMore,
+  loadingInitial,
+  loadingMore,
+  error,
+  loadMore,
+  retry: loadMore,
+  updateLocalSignal: (updated: Signal) => {
+    setItems((prev) =>
+      prev.map((item) => (item.id === updated.id ? updated : item))
+    );
+  },
+};
 }
