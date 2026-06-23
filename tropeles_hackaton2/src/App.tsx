@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { PrivateRoute } from './components/PrivateRoute';
 import { Layout } from './components/Layout';
@@ -7,6 +7,13 @@ import { DashboardPage } from './pages/DashboardPage';
 import { TropelsPage } from './pages/TropelsPage';
 import { SignalsFeedPage } from "./pages/SignalsFeedPage";
 import { SignalDetailPage } from "./pages/SignalDetailPage";
+import SectorStoryPage from "./pages/page";
+
+function SectorStoryRouteWrapper() {
+  const params = useParams<{ id: string }>();
+
+  return <SectorStoryPage params={Promise.resolve({ id: params?.id ?? '' })} />;
+}
 
 export default function App() {
   return (
@@ -28,6 +35,7 @@ export default function App() {
             <Route path="/signals/:id" element={<SignalDetailPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/sectors/:id" element={<SectorStoryRouteWrapper />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
