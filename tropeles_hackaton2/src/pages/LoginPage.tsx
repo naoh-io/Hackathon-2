@@ -3,6 +3,7 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login as apiLogin } from '../api/auth';
 import { useAuth } from '../context/AuthContext';
+import troplet from '../assets/troplet.png';
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -34,6 +35,7 @@ export function LoginPage() {
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 w-full max-w-sm">
         <h1 className="text-2xl font-bold text-emerald-400 mb-1">TropelCare</h1>
         <p className="text-gray-400 text-sm mb-6">Control Room</p>
+        <img src={troplet} alt="TropelCare Logo" className="w-16 h-16 mx-auto mb-6" />
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
