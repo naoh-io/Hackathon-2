@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { apiFetch } from "../api/client";
-import type { TropelsResponse } from "../types";
+import type { Sector, SectorsResponse, TropelsResponse } from "../types";
 
 export function TropelsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState<TropelsResponse | null>(null);
+  const [sectors, setSectors] = useState<Sector[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,6 +25,19 @@ export function TropelsPage() {
   }, [searchParams]);
 
   useEffect(() => {
+    async function loadSectors() {
+      try {
+        const response = await apiFetch<SectorsResponse>("/sectors");
+        setSectors(response.items);
+      } catch {
+        setSectors([]);
+      }
+    }
+
+    loadSectors();
+  }, []);
+
+  useEffect(() => {
     const controller = new AbortController();
     const currentRequestId = ++requestIdRef.current;
 
@@ -34,9 +48,7 @@ export function TropelsPage() {
       const query = new URLSearchParams();
 
       Object.entries(params).forEach(([key, value]) => {
-        if (value !== "") {
-          query.set(key, value);
-        }
+        if (value !== "") query.set(key, value);
       });
 
       try {
@@ -67,15 +79,10 @@ export function TropelsPage() {
   function updateParam(key: string, value: string) {
     const next = new URLSearchParams(searchParams);
 
-    if (value) {
-      next.set(key, value);
-    } else {
-      next.delete(key);
-    }
+    if (value) next.set(key, value);
+    else next.delete(key);
 
-    if (key !== "page") {
-      next.set("page", "0");
-    }
+    if (key !== "page") next.set("page", "0");
 
     setSearchParams(next);
   }
@@ -84,7 +91,7 @@ export function TropelsPage() {
     <main className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">Atlas de Tropeles</h1>
 
-      <section className="grid grid-cols-1 md:grid-cols-5 gap-3">
+      <section className="grid grid-cols-1 md:grid-cols-6 gap-3">
         <input
           className="border rounded px-3 py-2"
           placeholder="Buscar"
@@ -116,6 +123,19 @@ export function TropelsPage() {
           <option value="AGITADO">AGITADO</option>
           <option value="MUTANDO">MUTANDO</option>
           <option value="CRITICO">CRITICO</option>
+        </select>
+
+        <select
+          className="border rounded px-3 py-2"
+          value={params.sectorId}
+          onChange={(e) => updateParam("sectorId", e.target.value)}
+        >
+          <option value="">Todos los sectores</option>
+          {sectors.map((sector) => (
+            <option key={sector.id} value={sector.id}>
+              {sector.sectorCode} - {sector.name}
+            </option>
+          ))}
         </select>
 
         <select
