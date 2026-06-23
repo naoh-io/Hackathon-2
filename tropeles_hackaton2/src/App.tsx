@@ -4,6 +4,8 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { Layout } from './components/Layout';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { TropelsPage } from './pages/TropelsPage';
+import { SignalsFeedPage } from "./pages/SignalsFeedPage";
 
 export default function App() {
   return (
@@ -20,8 +22,8 @@ export default function App() {
           >
             <Route path="/dashboard" element={<DashboardPage />} />
             {/* Tus compañeros conectarán sus rutas aquí */}
-            <Route path="/tropels" element={<div className="text-gray-400">Tropeles — Integrante B</div>} />
-            <Route path="/signals" element={<div className="text-gray-400">Señales — Integrante B/C</div>} />
+            <Route path="/tropels" element={<TropelsPage />} />
+            <Route path="/signals" element={<SignalsFeedPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
