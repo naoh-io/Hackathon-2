@@ -6,7 +6,7 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { TropelsPage } from './pages/TropelsPage';
 import { SignalsFeedPage } from "./pages/SignalsFeedPage";
-import { SectorStoryPage } from "./pages/page";
+import { SectorStoryPage } from "./pages/SectorStoryPage";
 import { SectorsPage } from './pages/SectorsPage';
 
 
