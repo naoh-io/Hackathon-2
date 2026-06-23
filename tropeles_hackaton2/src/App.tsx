@@ -15,24 +15,24 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            element={
-              <PrivateRoute>
-                <Layout />
-              </PrivateRoute>
-            }
-          >
-            <Route path="/dashboard" element={<DashboardPage />} />
-            {/* Tus compañeros conectarán sus rutas aquí */}
-            <Route path="/tropels" element={<TropelsPage />} />
-            <Route path="/signals" element={<SignalsFeedPage />} />
-            <Route path="/sectors/:id/story" element={<SectorStoryPage />} />
-            <Route path="/sectors" element={<SectorsPage />} />
-            <Route path="/sectors/:id/story" element={<SectorStoryPage />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
+  <Route path="/login" element={<LoginPage />} />
+  
+  <Route
+    element={
+      <PrivateRoute>
+        <Layout />
+      </PrivateRoute>
+    }
+  >
+    <Route path="/dashboard" element={<DashboardPage />} />
+    <Route path="/tropels" element={<TropelsPage />} />
+    <Route path="/signals" element={<SignalsFeedPage />} />
+    <Route path="/sectors" element={<SectorsPage />} />
+    <Route path="/sectors/:id/story" element={<SectorStoryPage />} />
+  </Route>
+
+  <Route path="*" element={<Navigate to="/dashboard" replace />} />
+</Routes>
       </BrowserRouter>
     </AuthProvider>
   );
