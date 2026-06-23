@@ -8,6 +8,8 @@ import { TropelsPage } from './pages/TropelsPage';
 import { SignalsFeedPage } from "./pages/SignalsFeedPage";
 import { SectorStoryPage } from "./pages/SectorStoryPage";
 import { SectorsPage } from './pages/SectorsPage';
+import { SignalDetailPage } from './pages/SignalDetailPage'
+
 
 
 export default function App() {
@@ -27,6 +29,7 @@ export default function App() {
     <Route path="/dashboard" element={<DashboardPage />} />
     <Route path="/tropels" element={<TropelsPage />} />
     <Route path="/signals" element={<SignalsFeedPage />} />
+    <Route path="/signals/:id" element={<SignalDetailPage />} />
     <Route path="/sectors" element={<SectorsPage />} />
     <Route path="/sectors/:id/story" element={<SectorStoryPage />} />
   </Route>
