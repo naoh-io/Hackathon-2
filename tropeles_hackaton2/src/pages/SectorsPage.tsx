@@ -16,13 +16,26 @@ export function SectorsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-  apiFetch<{ content: Sector[] } | Sector[]>('/sectors')
-    .then((res) => {
-      if (Array.isArray(res)) setSectors(res);
-      else if ('content' in res) setSectors(res.content);
+  const token = localStorage.getItem('token') // o como guardes el token
+  console.log('TOKEN:', token)
+  
+  fetch(`${import.meta.env.VITE_API_BASE_URL}/sectors`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+    .then(r => {
+      console.log('STATUS:', r.status)
+      return r.json()
     })
-    .finally(() => setLoading(false));
-}, []);
+    .then(data => {
+      console.log('DATA:', data)
+      if (Array.isArray(data)) setSectors(data)
+      else if (data.sectors) setSectors(data.sectors)
+      else if (data.content) setSectors(data.content)
+      else if (data.items) setSectors(data.items)
+    })
+    .catch(e => console.error('FETCH ERROR:', e))
+    .finally(() => setLoading(false))
+}, [])
 
   if (loading) return <div className="text-gray-400">Cargando sectores...</div>;
 
