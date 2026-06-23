@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useInfiniteSignals } from "../hooks/useInfiniteSignals";
+import type { Signal } from "../types";
 
 export function SignalsFeedPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,16 +24,14 @@ export function SignalsFeedPage() {
     error,
     loadMore,
     retry,
+    updateLocalSignal,
   } = useInfiniteSignals(filters);
 
   function updateParam(key: string, value: string) {
     const next = new URLSearchParams(searchParams);
 
-    if (value) {
-      next.set(key, value);
-    } else {
-      next.delete(key);
-    }
+    if (value) next.set(key, value);
+    else next.delete(key);
 
     setSearchParams(next);
   }
@@ -54,6 +53,33 @@ export function SignalsFeedPage() {
 
     return () => observer.disconnect();
   }, [loadMore]);
+
+  useEffect(() => {
+    const savedScroll = sessionStorage.getItem("signalsScrollY");
+
+    if (!savedScroll || loadingInitial || items.length === 0) return;
+
+    window.scrollTo({
+      top: Number(savedScroll),
+      behavior: "auto",
+    });
+
+    sessionStorage.removeItem("signalsScrollY");
+  }, [loadingInitial, items.length]);
+
+  useEffect(() => {
+    const raw = sessionStorage.getItem("updatedSignal");
+    if (!raw) return;
+
+    try {
+      const updated = JSON.parse(raw) as Signal;
+      updateLocalSignal(updated);
+    } catch {
+      // ignorar
+    } finally {
+      sessionStorage.removeItem("updatedSignal");
+    }
+  }, [updateLocalSignal]);
 
   return (
     <main className="p-6 space-y-6">
@@ -113,7 +139,9 @@ export function SignalsFeedPage() {
           <Link
             key={signal.id}
             to={`/signals/${signal.id}`}
-            state={{ fromFeed: true, scrollY: window.scrollY }}
+            onClick={() => {
+              sessionStorage.setItem("signalsScrollY", String(window.scrollY));
+            }}
             className="block border rounded-xl p-4 hover:bg-gray-50"
           >
             <div className="flex justify-between gap-4">
